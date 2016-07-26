@@ -139,6 +139,7 @@
     <ClCompile Include="Canny边缘检测.cpp" />
     <ClCompile Include="Hough线段检测.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Snake轮廓.cpp" />
     <ClCompile Include="图像旋转与缩放.cpp" />
     <ClCompile Include="读视频文件和运动物体检测.cpp" />
     <ClCompile Include="轮廓(contour)检测.cpp" />

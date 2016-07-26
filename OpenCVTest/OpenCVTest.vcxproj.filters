@@ -36,5 +36,8 @@
     <ClCompile Include="鼠标绘图.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Snake轮廓.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
