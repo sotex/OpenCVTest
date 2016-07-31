@@ -3,8 +3,8 @@
 #include <opencv2/imgproc/imgproc.hpp>	// cvtColor
 
 
-int	scaleFactor = 50;	// 缩放因子(50为1.0倍+0.2避免缩到0)
-int	angle = 0;			// 旋转角度
+static int	scaleFactor = 50;	// 缩放因子(50为1.0倍+0.2避免缩到0)
+static int	angle = 0;			// 旋转角度
 
 
 void onTrackBar_rotate(int, void*);	// 旋转控制条回调函数

@@ -4,8 +4,8 @@
 
 // http ://blog.csdn.net/hitwengqi/article/details/6877864
 
-cv::Mat image, edge;	// 原始图片，canny边缘保存图片
-cv::Mat	gray, gedge;	// 灰度图片，canny便于保存图片
+static cv::Mat image, edge;	// 原始图片，canny边缘保存图片
+static cv::Mat	gray, gedge;	// 灰度图片，canny便于保存图片
 
 int edgeThresh = 1;		// 控制进度条(传出进度条控制的值)
 

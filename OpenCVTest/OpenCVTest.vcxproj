@@ -101,7 +101,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>D:\OpenCV\x64\vc14\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_core2413d.lib;opencv_highgui2413d.lib;opencv_imgproc2413d.lib;opencv_photo2413d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core2413d.lib;opencv_highgui2413d.lib;opencv_imgproc2413d.lib;opencv_photo2413d.lib;opencv_objdetect2413d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,7 +132,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>D:\OpenCV\x64\vc14\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_core2413.lib;opencv_highgui2413.lib;opencv_imgproc2413.lib;opencv_photo2413.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_core2413.lib;opencv_highgui2413.lib;opencv_imgproc2413.lib;opencv_photo2413.lib;opencv_objdetect2413.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -140,6 +140,7 @@
     <ClCompile Include="Hough线段检测.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Snake轮廓.cpp" />
+    <ClCompile Include="人脸检测.cpp" />
     <ClCompile Include="图像旋转与缩放.cpp" />
     <ClCompile Include="读视频文件和运动物体检测.cpp" />
     <ClCompile Include="轮廓(contour)检测.cpp" />

@@ -3,9 +3,9 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/photo.hpp>	// cv::inpaint
 
-cv::Mat	src,src_bak;	// 原图
-cv::Mat	inpainted, inpaint_mask;	// 绘制鼠标/掩码图
-cv::Point	prev_pt = { -1,-1 };	// 鼠标左键按下时候的鼠标位置或鼠标移动时候的起点位置
+static cv::Mat	src,src_bak;	// 原图
+static cv::Mat	inpainted, inpaint_mask;	// 绘制鼠标/掩码图
+static cv::Point	prev_pt = { -1,-1 };	// 鼠标左键按下时候的鼠标位置或鼠标移动时候的起点位置
 
 
 void on_mouse(int event, int x, int y, int flags, void* zhang);

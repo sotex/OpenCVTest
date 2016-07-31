@@ -1,9 +1,9 @@
 #include <iostream>
 // #include "opencv2/opencv.hpp"
 
-#define TEST(func)	\
+#define TEST(func,...)	\
 	std::cout<<"start "#func" ..."<<endl;	\
-	func();	\
+	func(__VA_ARGS__);	\
 	std::cout<<"end "#func"!!!"<<endl;
 
 extern int CannyEdgeDetection();
@@ -12,10 +12,10 @@ extern int rotateAndScale();
 extern int videoAndMovingObjectDetection();
 extern int houghLineDetection();
 extern int mousePainter();
-
+extern int FaceDetection(int,char**);
 using namespace std;
 
-int main()
+int main(int c,char**v)
 {
 	// Canny±ßÔµ¼ì²â
 	//TEST(CannyEdgeDetection);
@@ -27,14 +27,16 @@ int main()
 	//TEST(rotateAndScale);
 
 	// ¶ÁÈ¡ÊÓÆµÎÄ¼þºÍÔË¶¯ÎïÌå¼ì²â
-	//TEST(videoAndMovingObjectDetection);
+	// TEST(videoAndMovingObjectDetection);
 
 	// HoughÏß¶Î¼ì²â
 	//TEST(houghLineDetection);
 
 	// Êó±ê»æÍ¼
-	TEST(mousePainter);
+	//TEST(mousePainter);
 
+	// ÈËÁ³¼ì²â
+	TEST(FaceDetection,c,v);
 
 	//// ¼ÓÔØÍ¼Æ¬
 	//cv::Mat img = cv::imread("D:\\OpenCV\\doc\\opencv-logo2.png");
