@@ -18,52 +18,52 @@ void frameFaceDetection(cv::Mat& src, cv::CascadeClassifier& cascade,
 
 int FaceDetection(int c,char**v)
 {
-	//cv::Mat	src,gray;	// 源图像，灰度图像
+	//cv::Mat	src,gray;	// Դͼ�񣬻Ҷ�ͼ��
 	
-	cv::VideoCapture	capture;	// 视频捕获对象
-	cv::Mat				frame;		// 视频帧
-	cv::CascadeClassifier	cascade;	//级联分类器
+	cv::VideoCapture	capture;	// ��Ƶ�������
+	cv::Mat				frame;		// ��Ƶ֡
+	cv::CascadeClassifier	cascade;	//����������
 	
 	/**
-	// 加载源图像
+	// ����Դͼ��
 	const char* picpath = "../Image/sisy.jpg";
 	if (c > 1) { picpath = v[1]; }
 	src = cv::imread(picpath);
 
 	if (src.empty()) {
-		puts("图片加载失败!!!");
+		puts("ͼƬ����ʧ��!!!");
 		return -1;
 	}
 	*/
 
-	// 打开视频文件
+	// ����Ƶ�ļ�
 	if (!capture.open("../Image/111.mp4")) {
-		puts("打开视频文件失败!!!");
+		puts("����Ƶ�ļ�ʧ��!!!");
 		return -1;
 	}
 
-	// 加载人脸识别级联分类器文件
+	// ��������ʶ�����������ļ�
 	if (!cascade.load(cascade_name)){
-		puts("人脸识别级联分类器文件加载失败!!!");
+		puts("����ʶ�����������ļ�����ʧ��!!!");
 		return 0;
 	}
 
-	// 创建显示窗口
+	// ������ʾ����
 	cv::namedWindow("src");
 
 	cv::Mat	src_scale;
 	src_scale.create(cv::Size(480, 320), CV_8SC3);
-	// 循环取帧并显示
+	// ѭ��ȡ֡����ʾ
 	while (capture.read(frame)) {
-		// 进行缩放
+		// ��������
 		cv::resize(frame, src_scale, src_scale.size());
-		// 检测并显示
+		// ��Ⲣ��ʾ
 		frameFaceDetection(src_scale, cascade, "src");
-		// 等待按键事件
-		// 此处等待也为显示图像函数提供足够的时间完成显示
-		// 等待事件可以按照CPU速度进行调节
+		// �ȴ������¼�
+		// �˴��ȴ�ҲΪ��ʾͼ�����ṩ�㹻��ʱ�������ʾ
+		// �ȴ��¼����԰���CPU�ٶȽ��е���
 		if (cv::waitKey(2) >= 0) {
-			break;	// 按键就退出
+			break;	// �������˳�
 		}
 	}
 	//cv::waitKey();
@@ -79,26 +79,26 @@ void frameFaceDetection(cv::Mat& src,
 	std::vector<cv::Rect>	faces;
 	cv::Mat gray;
 
-	// 获取源图像的灰度图像
+	// ��ȡԴͼ��ĻҶ�ͼ��
 	//gray.create(src.size(), CV_8UC1);
 	cv::cvtColor(src, gray, CV_BGR2BGRA);
-	// 使灰度图象直方图均衡化
+	// ʹ�Ҷ�ͼ��ֱ��ͼ���⻯
 	//cv::equalizeHist(gray, gray);
 
-	// 获取初步检测结果
+	// ��ȡ���������
 	cascade.detectMultiScale(
-		gray/*源图像*/,
-		faces/*检测出的物体边缘(得到被检测物体的矩形框向量组)*/,
-		1.1/*每一个图像尺度中的尺度参数，默认值为1.1*/,
-		2/*每一个级联矩形应该保留的邻近个数*/,
+		gray/*Դͼ��*/,
+		faces/*�����������Ե(�õ����������ľ��ο�������)*/,
+		1.1/*ÿһ��ͼ��߶��еĳ߶Ȳ�����Ĭ��ֵΪ1.1*/,
+		2/*ÿһ����������Ӧ�ñ������ڽ�����*/,
 		CV_HAAR_SCALE_IMAGE,
-		cv::Size(30, 30)/*最小可能的对象的大小，小于的对象将被忽略*/);
+		cv::Size(30, 30)/*��С���ܵĶ���Ĵ�С��С�ڵĶ��󽫱�����*/);
 
-	// 将检测得到的结果，绘制到原图像上
+	// �����õ��Ľ�������Ƶ�ԭͼ����
 	for (auto face : faces) {
-		// 绘制红色矩形
+		// ���ƺ�ɫ����
 		cv::rectangle(src, face, cv::Scalar(0, 0, 255), 3);
 	}
-	// 显示图像
+	// ��ʾͼ��
 	cv::imshow(showWindowName, src);
 }
