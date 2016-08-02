@@ -79,7 +79,7 @@ int videoAndMovingObjectDetection()
 		//cv::dilate()
 
 		// 更新背景(http://blog.csdn.net/brilliantstone/article/details/10161313)
-		// cv::accumulateWeighted(grayImage, backImage, 0.05,binaryImage);
+		cv::accumulateWeighted(grayImage, backImage, 0.05,binaryImage);
 		// 不知为何加了此句便会崩溃http://answers.opencv.org/question/63781/accumulateweighted-problems/
 
 

@@ -27,7 +27,7 @@ int main(int c,char**v)
 	//TEST(rotateAndScale);
 
 	// 读取视频文件和运动物体检测
-	// TEST(videoAndMovingObjectDetection);
+	TEST(videoAndMovingObjectDetection);
 
 	// Hough线段检测
 	//TEST(houghLineDetection);
@@ -36,7 +36,7 @@ int main(int c,char**v)
 	//TEST(mousePainter);
 
 	// 人脸检测
-	TEST(FaceDetection,c,v);
+	//TEST(FaceDetection,c,v);
 
 	//// 加载图片
 	//cv::Mat img = cv::imread("D:\\OpenCV\\doc\\opencv-logo2.png");

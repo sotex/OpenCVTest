@@ -37,7 +37,7 @@ int FaceDetection(int c,char**v)
 	*/
 
 	// 打开视频文件
-	if (!capture.open("../Image/111.mp4")) {
+	if (!capture.open("../Image/video.mov")) {
 		puts("打开视频文件失败!!!");
 		return -1;
 	}
@@ -62,7 +62,7 @@ int FaceDetection(int c,char**v)
 		// 等待按键事件
 		// 此处等待也为显示图像函数提供足够的时间完成显示
 		// 等待事件可以按照CPU速度进行调节
-		if (cv::waitKey(2) >= 0) {
+		if (cv::waitKey(1) >= 0) {
 			break;	// 按键就退出
 		}
 	}
@@ -80,10 +80,10 @@ void frameFaceDetection(cv::Mat& src,
 	cv::Mat gray;
 
 	// 获取源图像的灰度图像
-	//gray.create(src.size(), CV_8UC1);
-	cv::cvtColor(src, gray, CV_BGR2BGRA);
+	gray.create(src.size(), CV_8UC1);
+	cv::cvtColor(src, gray, CV_BGR2GRAY);
 	// 使灰度图象直方图均衡化
-	//cv::equalizeHist(gray, gray);
+	cv::equalizeHist(gray, gray);
 
 	// 获取初步检测结果
 	cascade.detectMultiScale(
