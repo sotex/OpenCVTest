@@ -21,8 +21,8 @@ int CannyEdgeDetection()
 		return -1;
 	}
 	// 生成灰度图片，因为只有灰度图片才能生成边缘图片
-	gray.create(image.size(), image.type());
-	cv::cvtColor(image, gray, CV_BGR2GRAY);
+	// gray.create(image.size(), image.type());	// 这里create是没有用的
+	cv::cvtColor(image, gray, CV_BGR2GRAY);		// 这里会自动去create到转换的目标保存类型，这里应该是UINT8
 
 	cv::imshow("gray", gray);
 
