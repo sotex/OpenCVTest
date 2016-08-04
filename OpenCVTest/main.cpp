@@ -12,6 +12,7 @@ extern int rotateAndScale();
 extern int videoAndMovingObjectDetection();
 extern int houghLineDetection();
 extern int mousePainter();
+extern int snakeContour();
 extern int FaceDetection(int,char**);
 using namespace std;
 
@@ -27,13 +28,16 @@ int main(int c,char**v)
 	//TEST(rotateAndScale);
 
 	// 读取视频文件和运动物体检测
-	TEST(videoAndMovingObjectDetection);
+	//TEST(videoAndMovingObjectDetection);
 
 	// Hough线段检测
 	//TEST(houghLineDetection);
 
 	// 鼠标绘图
 	//TEST(mousePainter);
+
+	// Snake轮廓检测
+	TEST(snakeContour);
 
 	// 人脸检测
 	//TEST(FaceDetection,c,v);
