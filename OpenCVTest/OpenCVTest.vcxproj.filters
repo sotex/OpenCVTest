@@ -42,5 +42,8 @@
     <ClCompile Include="人脸检测.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="频域水印添加.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

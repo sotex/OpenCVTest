@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 // #include "opencv2/opencv.hpp"
 
 #define TEST(func,...)	\
@@ -13,46 +13,50 @@ extern int videoAndMovingObjectDetection();
 extern int houghLineDetection();
 extern int mousePainter();
 extern int snakeContour();
-extern int FaceDetection(int,char**);
+extern int FaceDetection(int, char**);
+extern int FrequencyDomainWatermark();
 using namespace std;
 
 int main(int c,char**v)
 {
-	// Canny±ßÔµ¼ì²â
+	// Cannyè¾¹ç¼˜æ£€æµ‹
 	//TEST(CannyEdgeDetection);
 	
-	// ÂÖÀª¼ì²â
+	// è½®å»“æ£€æµ‹
 	//TEST(ContourDetection);
 
-	// Í¼ÏñĞı×ªÓëËõ·Å
+	// å›¾åƒæ—‹è½¬ä¸ç¼©æ”¾
 	//TEST(rotateAndScale);
 
-	// ¶ÁÈ¡ÊÓÆµÎÄ¼şºÍÔË¶¯ÎïÌå¼ì²â
+	// è¯»å–è§†é¢‘æ–‡ä»¶å’Œè¿åŠ¨ç‰©ä½“æ£€æµ‹
 	//TEST(videoAndMovingObjectDetection);
 
-	// HoughÏß¶Î¼ì²â
+	// Houghçº¿æ®µæ£€æµ‹
 	//TEST(houghLineDetection);
 
-	// Êó±ê»æÍ¼
+	// é¼ æ ‡ç»˜å›¾
 	//TEST(mousePainter);
 
-	// SnakeÂÖÀª¼ì²â
-	TEST(snakeContour);
+	// Snakeè½®å»“æ£€æµ‹
+	//TEST(snakeContour);
 
-	// ÈËÁ³¼ì²â
+	// äººè„¸æ£€æµ‹
 	//TEST(FaceDetection,c,v);
 
-	//// ¼ÓÔØÍ¼Æ¬
+    // é¢‘åŸŸæ°´å°
+    TEST(FrequencyDomainWatermark);
+
+	//// åŠ è½½å›¾ç‰‡
 	//cv::Mat img = cv::imread("D:\\OpenCV\\doc\\opencv-logo2.png");
 	//if (img.empty()) {
 	//	cerr << "open image failed!!!" << endl;
 	//	return -1;
 	//}
-	//// ´´½¨Ò»¸ö´°¿Ú
+	//// åˆ›å»ºä¸€ä¸ªçª—å£
 	////cv::namedWindow("Show Image");
-	//// ÔÚ´°¿ÚÏÔÊ¾Í¼Æ¬
+	//// åœ¨çª—å£æ˜¾ç¤ºå›¾ç‰‡
 	//cv::imshow("opencv-logo2.png", img);
-	//// µÈ´ı°´ÈÎÒâ¼ü
+	//// ç­‰å¾…æŒ‰ä»»æ„é”®
 	//cv::waitKey();
 	getchar();
 	return 0;
