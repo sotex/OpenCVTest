@@ -1,7 +1,12 @@
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
+
+#if CV_VERSION_MAJOR < 3
 #include <opencv2/legacy/legacy.hpp>	// cvSnakeImage
+
+// 图像处理之其他杂项（三）之cvSnakeImage改进升级兼容 适用于opencv2，，在opencv3.0以上版本中测试通过
+// https://blog.csdn.net/coming_is_winter/article/details/73010825
 
 // http://blog.csdn.net/hongxingabc/article/details/51606520
 //http://wiki.opencv.org.cn/index.php/Snake%E8%BD%AE%E5%BB%93%E4%BE%8B%E5%AD%90
@@ -114,6 +119,7 @@ void on_change(int,void*)
 				point_arr[npt] = contours[nline][npt];
 			}
 			// 执行改变轮廓位置使得它的能量最小
+            
 			cvSnakeImage(&ipl_src/*输入图像或外部能量域*/,
 				point_arr.data()/*传入传出轮廓点*/,
 				point_count/*传入轮廓点数组大小*/,
@@ -135,3 +141,5 @@ void on_change(int,void*)
 		}
 	}
 }
+
+#endif
