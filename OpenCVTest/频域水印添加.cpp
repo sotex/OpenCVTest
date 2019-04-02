@@ -9,9 +9,9 @@
 /*
  +----+      +----------+    +--------+
  |图像|----->|傅里叶变换|--->|图像频域|------+
- +----+      +----------+    +--------+    +-|--+     +----------+   +--------+
-                                           |叠加|---->|傅里叶变换|-->|水印图像|
- +------+          + - - - +               +-|--+     +----------+   +--------+
+ +----+      +----------+    +--------+    +-|--+     +------------+   +--------+
+                                           |叠加|---->|傅里叶逆变换|-->|水印图像|
+ +------+          + - - - +               +-|--+     +------------+   +--------+
  |水印图|--------->| 编码  |-----------------+
  +------+          + - - - +
 */
@@ -59,7 +59,7 @@ int FrequencyDomainWatermark()
     cv::Mat _magI = mag.clone();
     //这一步的目的仍然是为了显示,但是幅度值仍然超过可显示范围[0,1],我们使用 normalize() 函数将幅度归一化到可显示范围。
     cv::normalize(_magI, _magI, 0, 1, CV_MINMAX);
-    cv::imshow("before rearrange", _magI);
+    cv::imshow("重新排列前图像", _magI);
 
     //rearrange the quadrants of Fourier image
     //so that the origin is at the image center
@@ -89,5 +89,12 @@ int FrequencyDomainWatermark()
     normalize(mag, mag, 0, 1, CV_MINMAX);
     imshow("Input Image", srcGray);
     cv::imshow("傅里叶变换", mag);
+
+    //傅里叶的逆变换
+    cv::Mat ifft;
+    idft(complexImg, ifft, cv::DFT_REAL_OUTPUT);
+    normalize(ifft, ifft, 0, 1, CV_MINMAX);
+    imshow("逆傅里叶变换", ifft);
+
     return cv::waitKey();
 }
