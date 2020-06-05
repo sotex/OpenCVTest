@@ -3,20 +3,33 @@
 #include <opencv2/core/version.hpp>
 
 #ifdef _MSC_VER
+#if USE_VCPKG_OPENCV
+#define CV_VERSION_NAME ""
+#else
+
 #ifdef _DEBUG
 #define CV_VERSION_NAME CVAUX_STR(CV_VERSION_MAJOR)  CVAUX_STR(CV_VERSION_MINOR) CVAUX_STR(CV_VERSION_REVISION) "d"
 #else
 #define CV_VERSION_NAME CVAUX_STR(CV_VERSION_MAJOR)  CVAUX_STR(CV_VERSION_MINOR) CVAUX_STR(CV_VERSION_REVISION)
 #endif // DEBUG
 
+#endif // USE_VCPKG_OPENCV
+
 #pragma comment(lib,"opencv_core" CV_VERSION_NAME ".lib")
 #pragma comment(lib,"opencv_highgui" CV_VERSION_NAME ".lib")
 #pragma comment(lib,"opencv_imgproc" CV_VERSION_NAME ".lib")
 #pragma comment(lib,"opencv_photo" CV_VERSION_NAME ".lib")
 #pragma comment(lib,"opencv_objdetect" CV_VERSION_NAME ".lib")
+
 #if (CV_VERSION_MAJOR < 3)
 #pragma comment(lib,"opencv_legacy" CV_VERSION_NAME ".lib")
 #endif
+
+#if (CV_VERSION_MAJOR > 3)
+#pragma comment(lib,"opencv_videoio" CV_VERSION_NAME ".lib")
+#pragma comment(lib,"opencv_imgcodecs" CV_VERSION_NAME ".lib")
+#endif
+
 #endif // !_MSC_VER
 
 

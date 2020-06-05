@@ -1,43 +1,43 @@
-#include <opencv2/core/core.hpp>
+ï»¿#include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>	// cvtColor
 
 // http ://blog.csdn.net/hitwengqi/article/details/6877864
 
-static cv::Mat image, edge;	// Ô­Ê¼Í¼Æ¬£¬canny±ßÔµ±£´æÍ¼Æ¬
-static cv::Mat	gray, gedge;	// »Ò¶ÈÍ¼Æ¬£¬canny±ãÓÚ±£´æÍ¼Æ¬
+static cv::Mat image, edge;	// åŸå§‹å›¾ç‰‡ï¼Œcannyè¾¹ç¼˜ä¿å­˜å›¾ç‰‡
+static cv::Mat	gray, gedge;	// ç°åº¦å›¾ç‰‡ï¼Œcannyä¾¿äºä¿å­˜å›¾ç‰‡
 
-int edgeThresh = 1;		// ¿ØÖÆ½ø¶ÈÌõ(´«³ö½ø¶ÈÌõ¿ØÖÆµÄÖµ)
+int edgeThresh = 1;		// æ§åˆ¶è¿›åº¦æ¡(ä¼ å‡ºè¿›åº¦æ¡æ§åˆ¶çš„å€¼)
 
 void onTrackBar(int, void*);
 
 int CannyEdgeDetection()
 {
-	// ¼ÓÔØÔ­Ê¼Í¼Æ¬
+	// åŠ è½½åŸå§‹å›¾ç‰‡
 	image = cv::imread("../Image/sisy.jpg");
-	// ÅĞ¶ÏÔØÈëÊÇ·ñ³É¹¦
+	// åˆ¤æ–­è½½å…¥æ˜¯å¦æˆåŠŸ
 	if (image.empty()) {
-		printf("ÔØÈëÍ¼Æ¬Ê§°Ü\n");
+		printf("è½½å…¥å›¾ç‰‡å¤±è´¥\n");
 		return -1;
 	}
-	// Éú³É»Ò¶ÈÍ¼Æ¬£¬ÒòÎªÖ»ÓĞ»Ò¶ÈÍ¼Æ¬²ÅÄÜÉú³É±ßÔµÍ¼Æ¬
-	// gray.create(image.size(), image.type());	// ÕâÀïcreateÊÇÃ»ÓĞÓÃµÄ
-	cv::cvtColor(image, gray, CV_BGR2GRAY);		// ÕâÀï»á×Ô¶¯È¥createµ½×ª»»µÄÄ¿±ê±£´æÀàĞÍ£¬ÕâÀïÓ¦¸ÃÊÇUINT8
+	// ç”Ÿæˆç°åº¦å›¾ç‰‡ï¼Œå› ä¸ºåªæœ‰ç°åº¦å›¾ç‰‡æ‰èƒ½ç”Ÿæˆè¾¹ç¼˜å›¾ç‰‡
+	// gray.create(image.size(), image.type());	// è¿™é‡Œcreateæ˜¯æ²¡æœ‰ç”¨çš„
+	cv::cvtColor(image, gray, cv::ColorConversionCodes::COLOR_BGR2GRAY);		// è¿™é‡Œä¼šè‡ªåŠ¨å»createåˆ°è½¬æ¢çš„ç›®æ ‡ä¿å­˜ç±»å‹ï¼Œè¿™é‡Œåº”è¯¥æ˜¯UINT8
 
 	cv::imshow("gray", gray);
 
-	// ĞÂ½¨Ò»¸ö´°¿Ú
+	// æ–°å»ºä¸€ä¸ªçª—å£
 	cv::namedWindow("Edge Map", 1);
 
-	// Éú³ÉÒ»¸ö½ø¶ÈÌõÀ´¿ØÖÆ±ßÔµ¼ì²â
+	// ç”Ÿæˆä¸€ä¸ªè¿›åº¦æ¡æ¥æ§åˆ¶è¾¹ç¼˜æ£€æµ‹
 	cv::createTrackbar("Canny Threshold", "Edge Map",
-		&edgeThresh/*´«³ö½ø¶ÈÌõµÄÖµ*/,100/*½ø¶ÈÌõ³¤¶È*/,
-		onTrackBar /*½ø¶ÈÌõÖµ¸Ä±äÊ±µ÷ÓÃµÄº¯Êı*/);
+		&edgeThresh/*ä¼ å‡ºè¿›åº¦æ¡çš„å€¼*/,100/*è¿›åº¦æ¡é•¿åº¦*/,
+		onTrackBar /*è¿›åº¦æ¡å€¼æ”¹å˜æ—¶è°ƒç”¨çš„å‡½æ•°*/);
 
-	// ³õÊ¼»¯Í¼Ïñ
+	// åˆå§‹åŒ–å›¾åƒ
 	onTrackBar(0, NULL);
 
-	// µÈ´ı°´¼ü
+	// ç­‰å¾…æŒ‰é”®
 	cv::waitKey();
 	return 0;
 }
@@ -45,21 +45,21 @@ int CannyEdgeDetection()
 
 void onTrackBar(int, void*)
 {
-	// blur »Ò¶ÈÍ¼Æ¬(blur Ä£ºı)
+	// blur ç°åº¦å›¾ç‰‡(blur æ¨¡ç³Š)
 	cv::blur(gray, gedge, cv::Size(3, 3));
-	// Canny ±ßÔµ¼ì²â
-	cv::Canny(gray /*µ¥Í¨µÀÊäÈëÍ¼Ïñ.*/,
-		gedge/*µ¥Í¨µÀ´æ´¢±ßÔµµÄÊä³öÍ¼Ïñ*/,
-		edgeThresh/*µÚÒ»¸öãĞÖµ*/,
-		edgeThresh * 3 /*µÚ¶ş¸öãĞÖµ*/,
-		3 /*SobelËã×ÓÄÚºË´óĞ¡*/);
+	// Canny è¾¹ç¼˜æ£€æµ‹
+	cv::Canny(gray /*å•é€šé“è¾“å…¥å›¾åƒ.*/,
+		gedge/*å•é€šé“å­˜å‚¨è¾¹ç¼˜çš„è¾“å‡ºå›¾åƒ*/,
+		edgeThresh/*ç¬¬ä¸€ä¸ªé˜ˆå€¼*/,
+		edgeThresh * 3 /*ç¬¬äºŒä¸ªé˜ˆå€¼*/,
+		3 /*Sobelç®—å­å†…æ ¸å¤§å°*/);
 
-	// È«²¿ÉèÖÃÎª0
+	// å…¨éƒ¨è®¾ç½®ä¸º0
 	edge = cv::Scalar::all(0);
 
-	// ¿½±´±ßÔµÏñËØµã
+	// æ‹·è´è¾¹ç¼˜åƒç´ ç‚¹
 	image.copyTo(edge, gedge);
 
-	// ÏÔÊ¾Í¼Æ¬
+	// æ˜¾ç¤ºå›¾ç‰‡
 	cv::imshow("Edge Map", edge);
 }

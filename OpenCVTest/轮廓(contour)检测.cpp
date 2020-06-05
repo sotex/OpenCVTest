@@ -1,4 +1,4 @@
-#include <opencv2/core/core.hpp>
+ï»¿#include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>	// cvtColor
 
@@ -8,65 +8,65 @@ int ContourDetection()
 {
 	
 	//return contours_test();
-	cv::Mat	image;	// ¼ÓÔØÔ­Ê¼Í¼Æ¬
-	cv::Mat	gary;	// ´æ´¢»Ò¶ÈÍ¼Ïñ
-	cv::Mat	dstimg;	// »æÖÆÂÖÀªÄ¿±êÍ¼Æ¬	
+	cv::Mat	image;	// åŠ è½½åŸå§‹å›¾ç‰‡
+	cv::Mat	gary;	// å­˜å‚¨ç°åº¦å›¾åƒ
+	cv::Mat	dstimg;	// ç»˜åˆ¶è½®å»“ç›®æ ‡å›¾ç‰‡	
 
-	// ´´½¨Á½¸ö´°¿Ú
-	cv::namedWindow("src");	// Ô­Ê¼Í¼Æ¬ÏÔÊ¾´°¿Ú
-	cv::namedWindow("dst");	// ÂÖÀªÍ¼Æ¬ÏÔÊ¾´°¿Ú
+	// åˆ›å»ºä¸¤ä¸ªçª—å£
+	cv::namedWindow("src");	// åŸå§‹å›¾ç‰‡æ˜¾ç¤ºçª—å£
+	cv::namedWindow("dst");	// è½®å»“å›¾ç‰‡æ˜¾ç¤ºçª—å£
 
-	// ÔØÈëÔ­Ê¼Í¼Æ¬
+	// è½½å…¥åŸå§‹å›¾ç‰‡
 	image = cv::imread("../Image/sisy.jpg");
 	if (image.empty()) {
-		puts("Í¼Æ¬¼ÓÔØÊ§°Ü");
+		puts("å›¾ç‰‡åŠ è½½å¤±è´¥");
 		return -1;
 	}
-	cv::imshow("src", image);	// ÏÔÊ¾Ô­Ê¼Í¼Æ¬
+	cv::imshow("src", image);	// æ˜¾ç¤ºåŸå§‹å›¾ç‰‡
 
-	gary.create(image.size(), CV_8U);	// ÉêÇë»Ò¶ÈÍ¼´æ´¢¿Õ¼ä
-	cv::cvtColor(image, gary, CV_BGR2GRAY);	// ×ª»»Ô­Ê¼Í¼Îª»Ò¶ÈÍ¼
-	cv::threshold(gary, gary, 128, 255, cv::THRESH_BINARY);	// ×ª»»Îª¶şÖµÍ¼	
+	gary.create(image.size(), CV_8U);	// ç”³è¯·ç°åº¦å›¾å­˜å‚¨ç©ºé—´
+	cv::cvtColor(image, gary, cv::ColorConversionCodes::COLOR_BGR2GRAY);	// è½¬æ¢åŸå§‹å›¾ä¸ºç°åº¦å›¾
+	cv::threshold(gary, gary, 128, 255, cv::THRESH_BINARY);	// è½¬æ¢ä¸ºäºŒå€¼å›¾	
 
-	std::vector<std::vector<cv::Point> >	contours;	// ¼ì²âµÄÂÖÀªÊı×é
+	std::vector<std::vector<cv::Point> >	contours;	// æ£€æµ‹çš„è½®å»“æ•°ç»„
 	std::vector<cv::Vec4i>					hierarchy;	// 
-	int	mode = CV_RETR_EXTERNAL;	// ÂÖÀª¼ì²âÄ£Ê½
-	//mode±íÊ¾ÂÖÀªµÄ¼ìË÷Ä£Ê½
-	//	CV_RETR_EXTERNAL±íÊ¾Ö»¼ì²âÍâÂÖÀª
-	//	CV_RETR_LIST¼ì²âµÄÂÖÀª²»½¨Á¢µÈ¼¶¹ØÏµ
-	//	CV_RETR_CCOMP½¨Á¢Á½¸öµÈ¼¶µÄÂÖÀª£¬ÉÏÃæµÄÒ»²ãÎªÍâ±ß½ç£¬ÀïÃæµÄÒ»²ãÎªÄÚ¿×µÄ±ß½çĞÅÏ¢¡£Èç¹ûÄÚ¿×ÄÚ»¹ÓĞÒ»¸öÁ¬Í¨ÎïÌå£¬Õâ¸öÎïÌåµÄ±ß½çÒ²ÔÚ¶¥²ã¡£
-	//	CV_RETR_TREE½¨Á¢Ò»¸öµÈ¼¶Ê÷½á¹¹µÄÂÖÀª¡£¾ßÌå²Î¿¼contours.cÕâ¸ödemo
+	int	mode = cv::RetrievalModes::RETR_EXTERNAL;	// è½®å»“æ£€æµ‹æ¨¡å¼
+	//modeè¡¨ç¤ºè½®å»“çš„æ£€ç´¢æ¨¡å¼
+	//	CV_RETR_EXTERNALè¡¨ç¤ºåªæ£€æµ‹å¤–è½®å»“
+	//	CV_RETR_LISTæ£€æµ‹çš„è½®å»“ä¸å»ºç«‹ç­‰çº§å…³ç³»
+	//	CV_RETR_CCOMPå»ºç«‹ä¸¤ä¸ªç­‰çº§çš„è½®å»“ï¼Œä¸Šé¢çš„ä¸€å±‚ä¸ºå¤–è¾¹ç•Œï¼Œé‡Œé¢çš„ä¸€å±‚ä¸ºå†…å­”çš„è¾¹ç•Œä¿¡æ¯ã€‚å¦‚æœå†…å­”å†…è¿˜æœ‰ä¸€ä¸ªè¿é€šç‰©ä½“ï¼Œè¿™ä¸ªç‰©ä½“çš„è¾¹ç•Œä¹Ÿåœ¨é¡¶å±‚ã€‚
+	//	CV_RETR_TREEå»ºç«‹ä¸€ä¸ªç­‰çº§æ ‘ç»“æ„çš„è½®å»“ã€‚å…·ä½“å‚è€ƒcontours.cè¿™ä¸ªdemo
 
-	int method = CV_CHAIN_APPROX_SIMPLE;
-	//methodÎªÂÖÀªµÄ½üËÆ°ì·¨
-	//	CV_CHAIN_APPROX_NONE´æ´¢ËùÓĞµÄÂÖÀªµã£¬ÏàÁÚµÄÁ½¸öµãµÄÏñËØÎ»ÖÃ²î²»³¬¹ı1£¬¼´max£¨abs£¨x1 - x2£©£¬abs£¨y2 - y1£©£© == 1
-	//	CV_CHAIN_APPROX_SIMPLEÑ¹ËõË®Æ½·½Ïò£¬´¹Ö±·½Ïò£¬¶Ô½ÇÏß·½ÏòµÄÔªËØ£¬Ö»±£Áô¸Ã·½ÏòµÄÖÕµã×ø±ê£¬ÀıÈçÒ»¸ö¾ØĞÎÂÖÀªÖ»Ğè4¸öµãÀ´±£´æÂÖÀªĞÅÏ¢
-	//	CV_CHAIN_APPROX_TC89_L1£¬CV_CHAIN_APPROX_TC89_KCOSÊ¹ÓÃteh-Chinl chain ½üËÆËã·¨
+	int method = cv::ContourApproximationModes::CHAIN_APPROX_SIMPLE;
+	//methodä¸ºè½®å»“çš„è¿‘ä¼¼åŠæ³•
+	//	CV_CHAIN_APPROX_NONEå­˜å‚¨æ‰€æœ‰çš„è½®å»“ç‚¹ï¼Œç›¸é‚»çš„ä¸¤ä¸ªç‚¹çš„åƒç´ ä½ç½®å·®ä¸è¶…è¿‡1ï¼Œå³maxï¼ˆabsï¼ˆx1 - x2ï¼‰ï¼Œabsï¼ˆy2 - y1ï¼‰ï¼‰ == 1
+	//	CV_CHAIN_APPROX_SIMPLEå‹ç¼©æ°´å¹³æ–¹å‘ï¼Œå‚ç›´æ–¹å‘ï¼Œå¯¹è§’çº¿æ–¹å‘çš„å…ƒç´ ï¼Œåªä¿ç•™è¯¥æ–¹å‘çš„ç»ˆç‚¹åæ ‡ï¼Œä¾‹å¦‚ä¸€ä¸ªçŸ©å½¢è½®å»“åªéœ€4ä¸ªç‚¹æ¥ä¿å­˜è½®å»“ä¿¡æ¯
+	//	CV_CHAIN_APPROX_TC89_L1ï¼ŒCV_CHAIN_APPROX_TC89_KCOSä½¿ç”¨teh-Chinl chain è¿‘ä¼¼ç®—æ³•
 
 
-	// ²éÕÒcontour
-	cv::findContours(gary/*ÊäÈëÍ¼Ïñ(±ØĞëÎªÒ»¸ö2Öµµ¥Í¨µÀÍ¼Ïñ)*/,
+	// æŸ¥æ‰¾contour
+	cv::findContours(gary/*è¾“å…¥å›¾åƒ(å¿…é¡»ä¸ºä¸€ä¸ª2å€¼å•é€šé“å›¾åƒ)*/,
 		contours/*, hierarchy*/, mode, method);
 
 
-	// ÎªÂÖÀªÏÔÊ¾Í¼Æ¬ÉêÇë¿Õ¼ä
-	dstimg = cv::Mat(image.size(), CV_8UC3); // 3Í¨µÀÍ¼Ïñ£¬ÒÔ±ã²ÊÉ«ÏÔÊ¾
-	image.copyTo(dstimg);					 // ¿½±´Ô´Í¼Ïñ
+	// ä¸ºè½®å»“æ˜¾ç¤ºå›¾ç‰‡ç”³è¯·ç©ºé—´
+	dstimg = cv::Mat(image.size(), CV_8UC3); // 3é€šé“å›¾åƒï¼Œä»¥ä¾¿å½©è‰²æ˜¾ç¤º
+	image.copyTo(dstimg);					 // æ‹·è´æºå›¾åƒ
 
-	// ½«ÂÖÀª»­³ö
-	cv::drawContours(dstimg/*Ä¿±êÍ¼Ïñ*/,
-		contours/*ÊäÈëµÄÂÖÀª×é*/,
-		-1 /*Ö¸Ã÷»­µÚ¼¸¸öÂÖÀª(¸ºÖµ±íÊ¾È«²¿ÂÖÀª)*/,
-		cv::Scalar(0,0,255)/*ÂÖÀªÑÕÉ«BGR(´Ë´¦ÒÔºìÉ«»æÖÆ)*/,
-		2 /*ÂÖÀªÏß¿í*/,
-		8 /*ÂÖÀªÏßĞÍ*/,
-		cv::noArray()/*ÂÖÀª½á¹¹ĞÅÏ¢*/);
+	// å°†è½®å»“ç”»å‡º
+	cv::drawContours(dstimg/*ç›®æ ‡å›¾åƒ*/,
+		contours/*è¾“å…¥çš„è½®å»“ç»„*/,
+		-1 /*æŒ‡æ˜ç”»ç¬¬å‡ ä¸ªè½®å»“(è´Ÿå€¼è¡¨ç¤ºå…¨éƒ¨è½®å»“)*/,
+		cv::Scalar(0,0,255)/*è½®å»“é¢œè‰²BGR(æ­¤å¤„ä»¥çº¢è‰²ç»˜åˆ¶)*/,
+		2 /*è½®å»“çº¿å®½*/,
+		8 /*è½®å»“çº¿å‹*/,
+		cv::noArray()/*è½®å»“ç»“æ„ä¿¡æ¯*/);
 
 
-	// ÏÔÊ¾ÂÖÀªÍ¼Æ¬
+	// æ˜¾ç¤ºè½®å»“å›¾ç‰‡
 	cv::imshow("dst", dstimg);
 
-	// µÈ´ı°´¼ü
+	// ç­‰å¾…æŒ‰é”®
 	cv::waitKey();
 }
 
@@ -78,19 +78,19 @@ int contours_test()
 	cv::imshow("src", src);
 
 	cv::Mat gray(src.size(), CV_8U);
-	cv::cvtColor(src, gray, CV_BGR2GRAY);//×ª»»³É»Ò¶ÈÍ¼  
+	cv::cvtColor(src, gray, cv::ColorConversionCodes::COLOR_BGR2GRAY);//è½¬æ¢æˆç°åº¦å›¾  
 
 	cv::imshow("gray", gray);
 
-	cv::threshold(gray, gray, 128, 255, cv::THRESH_BINARY);//×ª»»³É2ÖµÍ¼Ïñ  
+	cv::threshold(gray, gray, 128, 255, cv::THRESH_BINARY);//è½¬æ¢æˆ2å€¼å›¾åƒ  
 	cv::imshow("binary", gray);
 
 	/////////////////////////////////////////////////////////////////////  
 	std::vector<std::vector<cv::Point>> contours;
 	cv::findContours(gray,
 		contours, // a vector of contours   
-		CV_RETR_EXTERNAL, // retrieve the external contours  
-		CV_CHAIN_APPROX_NONE); // retrieve all pixels of each contours  
+		cv::RETR_EXTERNAL, // retrieve the external contours  
+		cv::CHAIN_APPROX_NONE); // retrieve all pixels of each contours  
 
 							   // Print contours' length  
 	// std::cout << "Contours: " << contours.size() << std::endl;

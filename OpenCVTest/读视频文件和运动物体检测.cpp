@@ -1,4 +1,4 @@
-#include <opencv2/core/core.hpp>
+ï»¿#include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>	// cvtColor
 
@@ -9,56 +9,56 @@
 
 int videoAndMovingObjectDetection()
 {
-	cv::VideoCapture capture;	// ÊÓÆµ²¶»ñ¶ÔÏó
+	cv::VideoCapture capture;	// è§†é¢‘æ•èŽ·å¯¹è±¡
 
-	// ´´½¨´°¿Ú
-	cv::namedWindow("video");		// ÊÓÆµ´°¿Ú
-	cv::namedWindow("background");	// ±³¾°
-	cv::namedWindow("foreground");	// Ç°¾°
-	// ÅÅÁÐ´°¿ÚÎ»ÖÃ
+	// åˆ›å»ºçª—å£
+	cv::namedWindow("video");		// è§†é¢‘çª—å£
+	cv::namedWindow("background");	// èƒŒæ™¯
+	cv::namedWindow("foreground");	// å‰æ™¯
+	// æŽ’åˆ—çª—å£ä½ç½®
 	cv::moveWindow("video", 100, 100);
 	cv::moveWindow("background", 580, 100);
 	cv::moveWindow("foreground", 1060, 100);
 
 
-	// ´ò¿ªÉãÏñÍ·
+	// æ‰“å¼€æ‘„åƒå¤´
 	//if (!capture.open(-1)) {
-	//	puts("´ò¿ªÉãÏñÍ·Ê§°Ü!!!");
+	//	puts("æ‰“å¼€æ‘„åƒå¤´å¤±è´¥!!!");
 	//	return -1;
 	//}
 
-	// ´ò¿ªÊÓÆµÎÄ¼þ
+	// æ‰“å¼€è§†é¢‘æ–‡ä»¶
 	if (!capture.open("../Image/video.short.mjpg.avi")) {
-		puts("´ò¿ªÊÓÆµÎÄ¼þÊ§°Ü!!!");
+		puts("æ‰“å¼€è§†é¢‘æ–‡ä»¶å¤±è´¥!!!");
 		return -1;
 	}
 
-	cv::Mat	frameImage,gray8u;	// ´æ´¢ÊÓÆµÖ¡
-	cv::Mat	backImage, foreImage, grayImage;	// Ç°¾°¡¢±³¾°ºÍÖ¡Í¼ÏñµÄ»Ò¶ÈÖ¡
-	cv::Mat	binaryImage;	// ±£´æ¶þÖµ»¯µÄÍ¼Ïñ(¼ÆËã½á¹û)
+	cv::Mat	frameImage,gray8u;	// å­˜å‚¨è§†é¢‘å¸§
+	cv::Mat	backImage, foreImage, grayImage;	// å‰æ™¯ã€èƒŒæ™¯å’Œå¸§å›¾åƒçš„ç°åº¦å¸§
+	cv::Mat	binaryImage;	// ä¿å­˜äºŒå€¼åŒ–çš„å›¾åƒ(è®¡ç®—ç»“æžœ)
 
-	int	frameCount = 0;	// Ö¡¼ÆÊý
+	int	frameCount = 0;	// å¸§è®¡æ•°
 
 	while (capture.read(frameImage)) {
 		++frameCount;
-		// Èç¹ûÊÇµÚÒ»Ö¡£¬ÉêÇëÄÚ´æ
+		// å¦‚æžœæ˜¯ç¬¬ä¸€å¸§ï¼Œç”³è¯·å†…å­˜
 		if (frameCount == 1) {
-			backImage.create(frameImage.size(), CV_32FC1);	// ×¢ÒâÕâÀïÊÇ32Î»floatÀ´´æ´¢
-			foreImage.create(frameImage.size(), CV_32FC1);	// ÒòÎªºóÃæ½øÐÐ¼ÆËãµÄÊ±ºòÐèÒª¸ß¾«¶È
+			backImage.create(frameImage.size(), CV_32FC1);	// æ³¨æ„è¿™é‡Œæ˜¯32ä½floatæ¥å­˜å‚¨
+			foreImage.create(frameImage.size(), CV_32FC1);	// å› ä¸ºåŽé¢è¿›è¡Œè®¡ç®—çš„æ—¶å€™éœ€è¦é«˜ç²¾åº¦
 			grayImage.create(frameImage.size(), CV_32FC1);
 
-			binaryImage.create(frameImage.size(), CV_8UC1);	// ¶þÖµ»¯Ö»ÐèÒªÕâÃ´¸ßµÄ¾«¶È
+			binaryImage.create(frameImage.size(), CV_8UC1);	// äºŒå€¼åŒ–åªéœ€è¦è¿™ä¹ˆé«˜çš„ç²¾åº¦
 			
-			// ×ª»»Ö¡Í¼ÏñÎª»Ò¶ÈÍ¼Ïñ´æ´¢ÎªÇ°¾°ºÍ±³¾°
-			cv::cvtColor(frameImage /*Ô´Í¼Ïñ*/,
-				gray8u/*Ä¿±êÍ¼Ïñ*/,
-				CV_BGR2GRAY/*ÑÕÉ«¿Õ¼ä×ª»»´úÂë*/,
-				0/*Í¨µÀÊý£¬Èç¹ûÎª0£¬Ôò´ÓÔ´Í¼ÏñºÍ×ª»»´úÂë¼ÆËã*/);
-			// ×¢Òâ£¬ÕâÀïÓ¦¸ÃÊÇ×ª»»µÄ½á¹ûÊÇ 8Î»(UINT8)Éî¶ÈµÄµÄÍ¼Ïñ£¬ÐèÒªÔÙ½øÐÐÉî¶È×ª»»
-			gray8u.convertTo(backImage /*Ä¿±êÍ¼Ïñ*/,
-				CV_32FC1 /*Ä¿±êÀàÐÍ*/, 
-				1.0 / 255.0 /*±ÈÀýÒò×Ó(ÕâÀïÒòÎªÊÇU8×ª32FËùÒÔÐèÒª³ýÒÔ255)*/,
-				0.0/*Æ«ÒÆÁ¿*/);
+			// è½¬æ¢å¸§å›¾åƒä¸ºç°åº¦å›¾åƒå­˜å‚¨ä¸ºå‰æ™¯å’ŒèƒŒæ™¯
+			cv::cvtColor(frameImage /*æºå›¾åƒ*/,
+				gray8u/*ç›®æ ‡å›¾åƒ*/,
+				cv::ColorConversionCodes::COLOR_BGR2GRAY/*é¢œè‰²ç©ºé—´è½¬æ¢ä»£ç */,
+				0/*é€šé“æ•°ï¼Œå¦‚æžœä¸º0ï¼Œåˆ™ä»Žæºå›¾åƒå’Œè½¬æ¢ä»£ç è®¡ç®—*/);
+			// æ³¨æ„ï¼Œè¿™é‡Œåº”è¯¥æ˜¯è½¬æ¢çš„ç»“æžœæ˜¯ 8ä½(UINT8)æ·±åº¦çš„çš„å›¾åƒï¼Œéœ€è¦å†è¿›è¡Œæ·±åº¦è½¬æ¢
+			gray8u.convertTo(backImage /*ç›®æ ‡å›¾åƒ*/,
+				CV_32FC1 /*ç›®æ ‡ç±»åž‹*/, 
+				1.0 / 255.0 /*æ¯”ä¾‹å› å­(è¿™é‡Œå› ä¸ºæ˜¯U8è½¬32Fæ‰€ä»¥éœ€è¦é™¤ä»¥255)*/,
+				0.0/*åç§»é‡*/);
 
 			//cv::cvtColor(frameImage, foreImage, CV_BGR2GRAY,1);
 			foreImage = backImage;
@@ -66,46 +66,46 @@ int videoAndMovingObjectDetection()
 			continue;
 		}
 
-		// ×ª»»Ö¡Í¼ÏñÎª»Ò¶ÈÍ¼Ïñ
-		cv::cvtColor(frameImage, gray8u, CV_BGR2GRAY);
-		// ½«8Î»Éî¶È»Ò¶ÈÍ¼Ïñ£¬×ª»»Îª32Î»¸¡µãÉî¶ÈµÄ»Ò¶ÈÍ¼Ïñ
+		// è½¬æ¢å¸§å›¾åƒä¸ºç°åº¦å›¾åƒ
+		cv::cvtColor(frameImage, gray8u, cv::ColorConversionCodes::COLOR_BGR2GRAY);
+		// å°†8ä½æ·±åº¦ç°åº¦å›¾åƒï¼Œè½¬æ¢ä¸º32ä½æµ®ç‚¹æ·±åº¦çš„ç°åº¦å›¾åƒ
 		gray8u.convertTo(grayImage, CV_32FC1, 1.0 / 255.0, 0.0);
 
-		// ¸ßË¹ÂË²¨£¬Æ½»¬µ±Ç°Í¼Ïñ
+		// é«˜æ–¯æ»¤æ³¢ï¼Œå¹³æ»‘å½“å‰å›¾åƒ
 		cv::GaussianBlur(
-			grayImage/*ÊäÈëÍ¼Ïñ*/,
-			grayImage/*Êä³öÍ¼Ïñ*/,
-			cv::Size(3, 3)/*¸ßË¹ÄÚºË´óÐ¡*/,
-			0.0 /*¸ßË¹ÄÚºËÔÚX·½ÏòµÄ±ê×¼Æ«²î*/,
-			0.0 /*¸ßË¹ÄÚºËÔÚY·½ÏòµÄ±ê×¼Æ«²î(Èç¹ûÎª0£¬½«ÓÚsigmaXÏàÍ¬)*/,
-			4/*ÓÃÓÚÅÐ¶ÏÍ¼Ïñ±ß½çµÄÄ£Ê½*/);
+			grayImage/*è¾“å…¥å›¾åƒ*/,
+			grayImage/*è¾“å‡ºå›¾åƒ*/,
+			cv::Size(3, 3)/*é«˜æ–¯å†…æ ¸å¤§å°*/,
+			0.0 /*é«˜æ–¯å†…æ ¸åœ¨Xæ–¹å‘çš„æ ‡å‡†åå·®*/,
+			0.0 /*é«˜æ–¯å†…æ ¸åœ¨Yæ–¹å‘çš„æ ‡å‡†åå·®(å¦‚æžœä¸º0ï¼Œå°†äºŽsigmaXç›¸åŒ)*/,
+			4/*ç”¨äºŽåˆ¤æ–­å›¾åƒè¾¹ç•Œçš„æ¨¡å¼*/);
 
-		// µ±Ç°Ö¡Óë±³¾°Í¼Ïà¼õ(½á¹û´æÈëÇ°¾°Í¼)
+		// å½“å‰å¸§ä¸ŽèƒŒæ™¯å›¾ç›¸å‡(ç»“æžœå­˜å…¥å‰æ™¯å›¾)
 		cv::absdiff(grayImage, backImage, foreImage);
-		// ¶þÖµ»¯Ç°¾°Í¼
+		// äºŒå€¼åŒ–å‰æ™¯å›¾
 		cv::threshold(foreImage, binaryImage,
-			0.05, 1.0/*¶ÔµÃµ½µÄÇ°¾°½øÐÐãÐÖµÑ¡È¡£¬È¥µôÎ±Ç°¾°*/,
-			CV_THRESH_BINARY);
+			0.05, 1.0/*å¯¹å¾—åˆ°çš„å‰æ™¯è¿›è¡Œé˜ˆå€¼é€‰å–ï¼ŒåŽ»æŽ‰ä¼ªå‰æ™¯*/,
+			cv::ThresholdTypes::THRESH_BINARY);
 
-		// ½øÐÐÐÎÌ¬Ñ§ÂË²¨£¬È¥µôÔëÒô
+		// è¿›è¡Œå½¢æ€å­¦æ»¤æ³¢ï¼ŒåŽ»æŽ‰å™ªéŸ³
 		//cv::erode(binaryImage,binaryImage)
 		//cv::dilate()
 
-		// ¸üÐÂ±³¾°(http://blog.csdn.net/brilliantstone/article/details/10161313)
+		// æ›´æ–°èƒŒæ™¯(http://blog.csdn.net/brilliantstone/article/details/10161313)
 		cv::accumulateWeighted(grayImage, backImage, 0.05/*,binaryImage*/);
-		// ²»ÖªÎªºÎ¼ÓÁË´Ë¾ä±ã»á±ÀÀ£http://answers.opencv.org/question/63781/accumulateweighted-problems/
+		// ä¸çŸ¥ä¸ºä½•åŠ äº†æ­¤å¥ä¾¿ä¼šå´©æºƒhttp://answers.opencv.org/question/63781/accumulateweighted-problems/
 
 
-		// ÏÔÊ¾Í¼Ïñ
+		// æ˜¾ç¤ºå›¾åƒ
 		cv::imshow("video", frameImage);
 		cv::imshow("background", backImage);
 		cv::imshow("foreground", foreImage);
 
-		// µÈ´ý°´¼üÊÂ¼þ
-		// ´Ë´¦µÈ´ýÒ²ÎªÏÔÊ¾Í¼Ïñº¯ÊýÌá¹©×ã¹»µÄÊ±¼äÍê³ÉÏÔÊ¾
-		// µÈ´ýÊÂ¼þ¿ÉÒÔ°´ÕÕCPUËÙ¶È½øÐÐµ÷½Ú
+		// ç­‰å¾…æŒ‰é”®äº‹ä»¶
+		// æ­¤å¤„ç­‰å¾…ä¹Ÿä¸ºæ˜¾ç¤ºå›¾åƒå‡½æ•°æä¾›è¶³å¤Ÿçš„æ—¶é—´å®Œæˆæ˜¾ç¤º
+		// ç­‰å¾…äº‹ä»¶å¯ä»¥æŒ‰ç…§CPUé€Ÿåº¦è¿›è¡Œè°ƒèŠ‚
 		if (cv::waitKey(2) >= 0) {
-			break;	// °´¼ü¾ÍÍË³ö
+			break;	// æŒ‰é”®å°±é€€å‡º
 		}
 
 

@@ -1,4 +1,4 @@
-#include <opencv2/core.hpp>
+﻿#include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/objdetect.hpp>
 #include <opencv2/imgproc.hpp>
@@ -18,52 +18,52 @@ void frameFaceDetection(cv::Mat& src, cv::CascadeClassifier& cascade,
 
 int FaceDetection(int c,char**v)
 {
-	//cv::Mat	src,gray;	// Դͼ�񣬻Ҷ�ͼ��
+	//cv::Mat	src,gray;	// 源图像，灰度图像
 	
-	cv::VideoCapture	capture;	// ��Ƶ�������
-	cv::Mat				frame;		// ��Ƶ֡
-	cv::CascadeClassifier	cascade;	//����������
+	cv::VideoCapture	capture;	// 视频捕获对象
+	cv::Mat				frame;		// 视频帧
+	cv::CascadeClassifier	cascade;	//级联分类器
 	
 	/**
-	// ����Դͼ��
+	// 加载源图像
 	const char* picpath = "../Image/sisy.jpg";
 	if (c > 1) { picpath = v[1]; }
 	src = cv::imread(picpath);
 
 	if (src.empty()) {
-		puts("ͼƬ����ʧ��!!!");
+		puts("图片加载失败!!!");
 		return -1;
 	}
 	*/
 
-	// ����Ƶ�ļ�
+	// 打开视频文件
 	if (!capture.open("../Image/video.mov")) {
-		puts("����Ƶ�ļ�ʧ��!!!");
+		puts("打开视频文件失败!!!");
 		return -1;
 	}
 
-	// ��������ʶ�����������ļ�
+	// 加载人脸识别级联分类器文件
 	if (!cascade.load(cascade_name)){
-		puts("����ʶ�����������ļ�����ʧ��!!!");
+		puts("人脸识别级联分类器文件加载失败!!!");
 		return 0;
 	}
 
-	// ������ʾ����
+	// 创建显示窗口
 	cv::namedWindow("src");
 
 	cv::Mat	src_scale;
 	src_scale.create(cv::Size(480, 320), CV_8SC3);
-	// ѭ��ȡ֡����ʾ
+	// 循环取帧并显示
 	while (capture.read(frame)) {
-		// ��������
+		// 进行缩放
 		cv::resize(frame, src_scale, src_scale.size());
-		// ��Ⲣ��ʾ
+		// 检测并显示
 		frameFaceDetection(src_scale, cascade, "src");
-		// �ȴ������¼�
-		// �˴��ȴ�ҲΪ��ʾͼ�����ṩ�㹻��ʱ�������ʾ
-		// �ȴ��¼����԰���CPU�ٶȽ��е���
+		// 等待按键事件
+		// 此处等待也为显示图像函数提供足够的时间完成显示
+		// 等待事件可以按照CPU速度进行调节
 		if (cv::waitKey(1) >= 0) {
-			break;	// �������˳�
+			break;	// 按键就退出
 		}
 	}
 	//cv::waitKey();
@@ -79,26 +79,26 @@ void frameFaceDetection(cv::Mat& src,
 	std::vector<cv::Rect>	faces;
 	cv::Mat gray;
 
-	// ��ȡԴͼ��ĻҶ�ͼ��
+	// 获取源图像的灰度图像
 	gray.create(src.size(), CV_8UC1);
-	cv::cvtColor(src, gray, CV_BGR2GRAY);
-	// ʹ�Ҷ�ͼ��ֱ��ͼ���⻯
+	cv::cvtColor(src, gray, cv::ColorConversionCodes::COLOR_BGR2GRAY);
+	// 使灰度图象直方图均衡化
 	cv::equalizeHist(gray, gray);
 
-	// ��ȡ���������
+	// 获取初步检测结果
 	cascade.detectMultiScale(
-		gray/*Դͼ��*/,
-		faces/*�����������Ե(�õ����������ľ��ο�������)*/,
-		1.1/*ÿһ��ͼ��߶��еĳ߶Ȳ�����Ĭ��ֵΪ1.1*/,
-		2/*ÿһ����������Ӧ�ñ������ڽ�����*/,
-		CV_HAAR_SCALE_IMAGE,
-		cv::Size(30, 30)/*��С���ܵĶ���Ĵ�С��С�ڵĶ��󽫱�����*/);
+		gray/*源图像*/,
+		faces/*检测出的物体边缘(得到被检测物体的矩形框向量组)*/,
+		1.1/*每一个图像尺度中的尺度参数，默认值为1.1*/,
+		2/*每一个级联矩形应该保留的邻近个数*/,
+		cv::CASCADE_SCALE_IMAGE,
+		cv::Size(30, 30)/*最小可能的对象的大小，小于的对象将被忽略*/);
 
-	// �����õ��Ľ�������Ƶ�ԭͼ����
+	// 将检测得到的结果，绘制到原图像上
 	for (auto face : faces) {
-		// ���ƺ�ɫ����
+		// 绘制红色矩形
 		cv::rectangle(src, face, cv::Scalar(0, 0, 255), 3);
 	}
-	// ��ʾͼ��
+	// 显示图像
 	cv::imshow(showWindowName, src);
 }

@@ -1,43 +1,43 @@
-#include <opencv2/core.hpp>
+ï»¿#include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/photo.hpp>	// cv::inpaint
 
-static cv::Mat	src,src_bak;	// Ô­Í¼
-static cv::Mat	inpainted, inpaint_mask;	// »æÖÆÊó±ê/ÑÚÂëÍ¼
-static cv::Point	prev_pt = { -1,-1 };	// Êó±ê×ó¼ü°´ÏÂÊ±ºòµÄÊó±êÎ»ÖÃ»òÊó±êÒÆ¶¯Ê±ºòµÄÆğµãÎ»ÖÃ
+static cv::Mat	src,src_bak;	// åŸå›¾
+static cv::Mat	inpainted, inpaint_mask;	// ç»˜åˆ¶é¼ æ ‡/æ©ç å›¾
+static cv::Point	prev_pt = { -1,-1 };	// é¼ æ ‡å·¦é”®æŒ‰ä¸‹æ—¶å€™çš„é¼ æ ‡ä½ç½®æˆ–é¼ æ ‡ç§»åŠ¨æ—¶å€™çš„èµ·ç‚¹ä½ç½®
 
 
 void on_mouse(int event, int x, int y, int flags, void* zhang);
 
 int mousePainter()
 {
-	// ´ò¿ªÔ­Í¼
+	// æ‰“å¼€åŸå›¾
 	src = cv::imread("../Image/sisy.jpg");
 	if (src.empty()) {
-		puts("´ò¿ªÍ¼ÏñÊ§°Ü!!!");
+		puts("æ‰“å¼€å›¾åƒå¤±è´¥!!!");
 		return -1;
 	}
-	src.copyTo(src_bak);	// ±¸·İÒ»ÏÂ
+	src.copyTo(src_bak);	// å¤‡ä»½ä¸€ä¸‹
 	// 
 	inpainted.create(src.size(), src.type());
 	src.copyTo(inpainted);
 	inpaint_mask = cv::Mat::zeros(src.size(), CV_8UC1);
 
 	cv::namedWindow("src");
-	cv::imshow("src", src);	// ÏÔÊ¾Ô­Í¼
+	cv::imshow("src", src);	// æ˜¾ç¤ºåŸå›¾
 	cv::namedWindow("watershed transform");
-	cv::imshow("watershed transform", inpainted);	// ·ÖË®Áë±ä»»
+	cv::imshow("watershed transform", inpainted);	// åˆ†æ°´å²­å˜æ¢
 
-	cv::setMouseCallback("src", on_mouse);	// Êó±êÊÂ¼ş»Øµ÷
+	cv::setMouseCallback("src", on_mouse);	// é¼ æ ‡äº‹ä»¶å›è°ƒ
 
 	while (true) {
-		int key = cv::waitKey(0);	// µÈ´ı°´¼ü
+		int key = cv::waitKey(0);	// ç­‰å¾…æŒ‰é”®
 		if (key == 27) {
-			break;	// °´ÏÂµÄÊÇESC¼ü
+			break;	// æŒ‰ä¸‹çš„æ˜¯ESCé”®
 		}
 		if (key == 'r') {
-			// °´ÏÂr ¼üµÄÊ±ºò£¬ÖØÀ´
+			// æŒ‰ä¸‹r é”®çš„æ—¶å€™ï¼Œé‡æ¥
 			inpaint_mask = cv::Mat::zeros(src.size(), CV_8UC1);
 			src_bak.copyTo(src);
 			cv::imshow("src", src);
@@ -46,12 +46,12 @@ int mousePainter()
 			cv::namedWindow("inpainted image");
 			// http://www.tuicool.com/articles/rymYNn
 			// http://docs.opencv.org/2.4/modules/photo/doc/inpainting.html
-			//src:ÒªĞŞ¸´µÄÍ¼Ïñ£»
-			//mask£ºĞŞ¸´Ä£°å£¬±ØĞëÊÇµ¥Í¨µÀÍ¼Ïñ£»
-			//dst£ºÄ¿±êÍ¼Ïñ£»
-			//inpaintRange£ºÑ¡È¡ÁÚÓò°ë¾¶;
-			//flags:ÒªÊ¹ÓÃµÄ·½·¨£¬¿ÉÒÔÊÇCV INPAINT NS»òCV INPAINT TELEA
-			cv::inpaint(src, inpaint_mask, inpainted, 3, CV_INPAINT_TELEA);
+			//src:è¦ä¿®å¤çš„å›¾åƒï¼›
+			//maskï¼šä¿®å¤æ¨¡æ¿ï¼Œå¿…é¡»æ˜¯å•é€šé“å›¾åƒï¼›
+			//dstï¼šç›®æ ‡å›¾åƒï¼›
+			//inpaintRangeï¼šé€‰å–é‚»åŸŸåŠå¾„;
+			//flags:è¦ä½¿ç”¨çš„æ–¹æ³•ï¼Œå¯ä»¥æ˜¯CV INPAINT NSæˆ–CV INPAINT TELEA
+			cv::inpaint(src, inpaint_mask, inpainted, 3, cv::INPAINT_TELEA);
 			cv::imshow("inpainted image", inpainted);
 		}
 	}
@@ -61,22 +61,22 @@ int mousePainter()
 
 void on_mouse(int event, int x, int y, int flags, void* zhang)
 {
-	if (event == CV_EVENT_LBUTTONUP  || !(flags & CV_EVENT_FLAG_LBUTTON)) {
-		prev_pt = cv::Point(-1, -1);	// Êó±ê×ó¼üµ¯Æğ»òÊó±ê×ó¼üÃ»ÓĞ°´ÏÂ
+	if (event == cv::EVENT_LBUTTONUP  || !(flags & cv::EVENT_FLAG_LBUTTON)) {
+		prev_pt = cv::Point(-1, -1);	// é¼ æ ‡å·¦é”®å¼¹èµ·æˆ–é¼ æ ‡å·¦é”®æ²¡æœ‰æŒ‰ä¸‹
 	}
-	else if (event == CV_EVENT_LBUTTONDOWN) {
-		prev_pt = cv::Point(x, y);	// Êó±ê×ó¼ü°´ÏÂ£¬¼ÇÂ¼Î»ÖÃ
+	else if (event == cv::EVENT_LBUTTONDOWN) {
+		prev_pt = cv::Point(x, y);	// é¼ æ ‡å·¦é”®æŒ‰ä¸‹ï¼Œè®°å½•ä½ç½®
 	}
-	else if (event == CV_EVENT_MOUSEMOVE && (flags & CV_EVENT_FLAG_LBUTTON)) {
-		// Êó±êÒÆ¶¯£¬²¢ÇÒ×ó¼üÊÇ°´ÏÂµÄ
+	else if (event == cv::EVENT_MOUSEMOVE && (flags & cv::EVENT_FLAG_LBUTTON)) {
+		// é¼ æ ‡ç§»åŠ¨ï¼Œå¹¶ä¸”å·¦é”®æ˜¯æŒ‰ä¸‹çš„
 		cv::Point	pt(x, y);
 		if (prev_pt.x < 0) {
 			prev_pt = pt;
 		}
-		// »æÏß(ºìÉ«£¬¿í¶ÈÎª5)
-		cv::line(src, prev_pt, pt, cv::Scalar(0,0,255), 5, 8, 0);	// »æÖÆµ½Ô­Í¼
+		// ç»˜çº¿(çº¢è‰²ï¼Œå®½åº¦ä¸º5)
+		cv::line(src, prev_pt, pt, cv::Scalar(0,0,255), 5, 8, 0);	// ç»˜åˆ¶åˆ°åŸå›¾
 		
-		// »æÖÆµ½inpaint_maskÉÏ£¬ºóÃæĞŞ¸´Ê±ºòÓÃ(Òª×¢Òâ£¬ÊÇµ¥Í¨µÀµÄ)
+		// ç»˜åˆ¶åˆ°inpaint_maskä¸Šï¼Œåé¢ä¿®å¤æ—¶å€™ç”¨(è¦æ³¨æ„ï¼Œæ˜¯å•é€šé“çš„)
 		cv::line(inpaint_mask, prev_pt, pt, cv::Scalar(255), 5, 8, 0);
 		prev_pt = pt;
 		cv::imshow("src", src);

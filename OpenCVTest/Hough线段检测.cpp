@@ -1,4 +1,4 @@
-#include <opencv2/core.hpp>
+ï»¿#include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
@@ -7,39 +7,39 @@
 
 int houghLineDetection()
 {
-	// ¼ÓÔØÔ­Í¼Ïñ
+	// åŠ è½½åŸå›¾åƒ
 	cv::Mat src = cv::imread("../Image/houghline2.jpg");
 	if (src.empty()) {
-		puts("Ô­Í¼Ïñ¶ÁÈ¡Ê§°Ü!!!");
+		puts("åŸå›¾åƒè¯»å–å¤±è´¥!!!");
 		return -1;
 	}
-	cv::Mat	gray(src.size(), CV_8UC1);	// Ô­Í¼µÄ»Ò¶ÈÍ¼Ïñ
-	cv::cvtColor(src, gray, CV_BGR2GRAY);
+	cv::Mat	gray(src.size(), CV_8UC1);	// åŸå›¾çš„ç°åº¦å›¾åƒ
+	cv::cvtColor(src, gray, cv::ColorConversionCodes::COLOR_BGR2GRAY);
 
-	cv::Mat	edge(src.size(), CV_8UC1);	// ±ßÔµÍ¼Ïñ
-	cv::Mat dst(src.size(), src.type());// »æÖÆÖ±ÏßµÄÄ¿±êÍ¼Ïñ¡¢
-	cv::cvtColor(gray, dst, CV_GRAY2BGR);	// ´Ó»Ò¶ÈÍ¼×ª¹ıÀ´£¬±ãÓÚºóÃæ»æÖÆºìÉ«µÄÏßÌõ
+	cv::Mat	edge(src.size(), CV_8UC1);	// è¾¹ç¼˜å›¾åƒ
+	cv::Mat dst(src.size(), src.type());// ç»˜åˆ¶ç›´çº¿çš„ç›®æ ‡å›¾åƒã€
+	cv::cvtColor(gray, dst, cv::ColorConversionCodes::COLOR_GRAY2BGR);	// ä»ç°åº¦å›¾è½¬è¿‡æ¥ï¼Œä¾¿äºåé¢ç»˜åˆ¶çº¢è‰²çš„çº¿æ¡
 
-	// ½øĞĞCanny±ßÔµ¼ì²â
+	// è¿›è¡ŒCannyè¾¹ç¼˜æ£€æµ‹
 	cv::Canny(gray, edge, 50, 200, 3);
 
 #if 0
-	// ¶¨ÒåÊä³öÊı×é£¬ÓÃÓÚ´æ´¢Ö±ÏßµÄ½Ç¶ÈºÍ¾àÀëÕâÁ½¸ö±äÁ¿  
+	// å®šä¹‰è¾“å‡ºæ•°ç»„ï¼Œç”¨äºå­˜å‚¨ç›´çº¿çš„è§’åº¦å’Œè·ç¦»è¿™ä¸¤ä¸ªå˜é‡  
 	std::vector<cv::Vec2f> lines;
-	// ¾àÀë·Ö±æÂÊÎª1£¬½Ç¶È·Ö±æÂÊÎª¦Ğ/180£¬ãĞÖµÎª215  
-	// ãĞÖµµÄÑ¡È¡Ö±½ÓÓ°Ïìµ½Êä³öÖ±ÏßµÄÊıÁ¿
+	// è·ç¦»åˆ†è¾¨ç‡ä¸º1ï¼Œè§’åº¦åˆ†è¾¨ç‡ä¸ºÏ€/180ï¼Œé˜ˆå€¼ä¸º215  
+	// é˜ˆå€¼çš„é€‰å–ç›´æ¥å½±å“åˆ°è¾“å‡ºç›´çº¿çš„æ•°é‡
 	cv::HoughLines(edge, lines, CV_HOUGH_PROBABILISTIC,
 		CV_PI / 180.0,215,0,0);
-	// »­Ö±Ïß
+	// ç”»ç›´çº¿
 	for (size_t i = 0; i < lines.size(); ++i) {
-		// ÌáÈ¡³ö¾àÀëºÍ½Ç¶È
+		// æå–å‡ºè·ç¦»å’Œè§’åº¦
 		float rho = lines[i][0];
 		float theta = lines[i][1];
 
-		// ¶¨ÒåÁ½¸öµã£¬È·¶¨Ò»ÌõÖ±Ïß
+		// å®šä¹‰ä¸¤ä¸ªç‚¹ï¼Œç¡®å®šä¸€æ¡ç›´çº¿
 		cv::Point p1, p2;
-		// ¼ÆËãµÃµ½Á½¸öµãµÄ×ø±ê
-		// £¨¦Ñcos¦È-1000sin¦È£¬¦Ñsin¦È+1000cos¦È£©£¬£¨¦Ñcos¦È+1000sin¦È£¬¦Ñsin¦È-1000cos¦È£©  
+		// è®¡ç®—å¾—åˆ°ä¸¤ä¸ªç‚¹çš„åæ ‡
+		// ï¼ˆÏcosÎ¸-1000sinÎ¸ï¼ŒÏsinÎ¸+1000cosÎ¸ï¼‰ï¼Œï¼ˆÏcosÎ¸+1000sinÎ¸ï¼ŒÏsinÎ¸-1000cosÎ¸ï¼‰  
 		double a = cos(theta);
 		double b = sin(theta);
 		double x0 = a*rho;
@@ -48,12 +48,12 @@ int houghLineDetection()
 		p1.y = cvRound(y0 + 1000 * a);
 		p2.x = cvRound(x0 - 1000 * (-b));
 		p2.y = cvRound(y0 - 1000 * a);
-		// ÔÚ»Ò¶ÈÍ¼ÉÏ»­¿í¶ÈÎª2µÄºìÏß
+		// åœ¨ç°åº¦å›¾ä¸Šç”»å®½åº¦ä¸º2çš„çº¢çº¿
 		cv::line(dst, p1, p2, cv::Scalar(0, 0, 255), 2, 8);
 	}
 #else
 	std::vector<cv::Vec4i> lines;
-	cv::HoughLinesP(edge, lines, CV_HOUGH_PROBABILISTIC,
+	cv::HoughLinesP(edge, lines, cv::HoughModes::HOUGH_PROBABILISTIC,
 		CV_PI / 180.0, 80, 30, 10);
 	for (size_t i = 0; i < lines.size(); ++i) {
 		cv::line(dst, cv::Point(lines[i][0], lines[i][1]),
@@ -62,14 +62,14 @@ int houghLineDetection()
 
 #endif
 
-	// ´´½¨´°¿ÚÏÔÊ¾Ô­Í¼ºÍÄ¿±êÍ¼
+	// åˆ›å»ºçª—å£æ˜¾ç¤ºåŸå›¾å’Œç›®æ ‡å›¾
 	cv::namedWindow("src");
 	cv::namedWindow("dst");
 	cv::imshow("src", src);
 	cv::imshow("dst", dst);
 	cv::imshow("edge", edge);
 
-	// µÈ´ı°´¼üÍË³ö
+	// ç­‰å¾…æŒ‰é”®é€€å‡º
 	cv::waitKey();
 	return 0;
 }
